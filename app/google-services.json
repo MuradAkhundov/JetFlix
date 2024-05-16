@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "985584623696",
+    "project_id": "jetflix-e583c",
+    "storage_bucket": "jetflix-e583c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985584623696:android:fd1aa62a321b6f64183155",
+        "android_client_info": {
+          "package_name": "com.muradakhundov.jetflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxtian88_wbiYvEfNB7fxJx3JHsS_RDzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
