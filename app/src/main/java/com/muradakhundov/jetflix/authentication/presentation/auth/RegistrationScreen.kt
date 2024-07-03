@@ -1,11 +1,9 @@
 package com.muradakhundov.jetflix.authentication.presentation.auth
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -39,39 +36,32 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthAction
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthViewModel
 import com.muradakhundov.jetflix.util.Constants.Companion.homeKey
-import com.muradakhundov.jetflix.util.Constants.Companion.registrationKey
 import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccent
 import com.muradakhundov.jetflix.movie.ui.theme.PrimaryDark
 import com.muradakhundov.jetflix.movie.ui.theme.PrimarySoft
@@ -89,35 +79,25 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
     var passwordVisible by remember { mutableStateOf(false) }
     val uiStateFlow = viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
 
-
-//    LaunchedEffect(uiStateFlow) {
-//           if (uiStateFlow.value.isLoading) {
-//                // Show loading indicator
-//                CircularProgressIndicator(
-//                    modifier = Modifier
-//                        .size(50.dp)
-//                        .align(Alignment.Center)
-//                )
-//            }
-//            if (uiState.valerror != null) {
-//                // Show error message in snackbar
-//                scaffoldState.snackbarHostState.showSnackbar(uiState.error)
-//            }
-//            if (uiState.success) {
-//                // Navigate to home screen
-//                navController?.navigate(homeKey)
-//            }
-//    }
+    LaunchedEffect(uiStateFlow.value) {
+        if (uiStateFlow.value.success) {
+            navController?.navigate(homeKey)
+        } else if (uiStateFlow.value.error?.isNotEmpty() == true) {
+            Toast.makeText(
+                context,
+                uiStateFlow.value.error,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(PrimaryDark),
         color = PrimaryDark,
-
-        ) {
+    ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             containerColor = PrimaryDark,
@@ -193,7 +173,8 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                         shape = CircleShape,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp)
+                            .padding(horizontal = 20.dp),
+                        singleLine = true
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     OutlinedTextField(
@@ -210,7 +191,8 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                         shape = CircleShape,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 20.dp)
+                            .padding(horizontal = 20.dp),
+                        singleLine = true
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     OutlinedTextField(
@@ -244,7 +226,8 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                                 }
                                 Icon(icon, contentDescription = "Toggle password visibility")
                             }
-                        }
+                        }, singleLine = true
+
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
@@ -267,28 +250,39 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                     }
 
                     Spacer(modifier = Modifier.height(20.dp))
-                    Button(
-                        onClick = {
-
-                            if (fullName.isNotEmpty() || password.isNotEmpty() || email.isNotEmpty()) {
-                                viewModel.setAction(
-                                    AuthAction.RegisterAction(
-                                        AuthQuery.RegistrationQuery(
-                                            username = fullName,
-                                            password = password,
-                                            email = email.trim()
+                    if (!uiStateFlow.value.isLoading) {
+                        Button(
+                            onClick = {
+                                if (!checkedState.value) {
+                                    Toast.makeText(
+                                        context,
+                                        "Please accept the privacy policy",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    return@Button
+                                }
+                                if (fullName.isNotEmpty() || password.isNotEmpty() || email.isNotEmpty()) {
+                                    viewModel.setAction(
+                                        AuthAction.RegisterAction(
+                                            AuthQuery.RegistrationQuery(
+                                                username = fullName,
+                                                password = password,
+                                                email = email.trim()
+                                            )
                                         )
                                     )
-                                )
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .padding(horizontal = 20.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
-                    ) {
-                        Text(text = "Sign Up")
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                                .padding(horizontal = 20.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
+                        ) {
+                            Text(text = "Sign Up")
+                        }
+                    } else {
+                        CircularProgressIndicator()
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                     Row() {
@@ -306,44 +300,6 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
             }
         )
     }
-}
-
-@Composable
-fun ProgressDialog() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f)),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = Color.White)
-    }
-}
-
-@Composable
-fun ShowMessage(message: String) {
-    AlertDialog(
-        onDismissRequest = { },
-        title = {
-            Text(
-                text = "Error",
-                style = MaterialTheme.typography.headlineMedium,
-                color = Color.Red
-            )
-        },
-        text = {
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.White
-            )
-        },
-        confirmButton = {
-            Button(onClick = { /* Dismiss action if needed */ }) {
-                Text("OK", color = Color.White)
-            }
-        }
-    )
 }
 
 @Preview

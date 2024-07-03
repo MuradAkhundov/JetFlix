@@ -65,7 +65,7 @@ import com.muradakhundov.jetflix.util.Constants.Companion.registrationKey
 fun LoginScreen(navController: NavController?, viewModel: AuthViewModel = hiltViewModel()) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
+    var passwordVisible by remember { mutableStateOf(false)}
 
     Surface(
         modifier = Modifier

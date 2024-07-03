@@ -29,7 +29,7 @@ class UserDataSource @Inject constructor(
 
             if (userId != null) {
                 val user = User(userId, query.username, query.password, null, query.email)
-                usersRef.setValue(user).await()
+                usersRef.child(userId).setValue(user).await()
                 Resource.Success(Unit)
             } else {
                 Resource.Error("User ID is null")
