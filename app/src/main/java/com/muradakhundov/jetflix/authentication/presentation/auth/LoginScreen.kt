@@ -55,15 +55,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthAction
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthViewModel
-import com.muradakhundov.jetflix.util.Constants.Companion.homeKey
-import com.muradakhundov.jetflix.util.Constants.Companion.loginKey
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccent
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryDark
-import com.muradakhundov.jetflix.movie.ui.theme.PrimarySoft
-import com.muradakhundov.jetflix.util.Constants.Companion.registrationKey
+import com.muradakhundov.jetflix.common.util.Constants.Companion.homeKey
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryDark
+import com.muradakhundov.jetflix.main.ui.theme.PrimarySoft
+import com.muradakhundov.jetflix.common.util.Constants.Companion.registrationKey
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,7 +75,11 @@ fun LoginScreen(navController: NavController?, viewModel: AuthViewModel = hiltVi
 
     LaunchedEffect(uiStateFlow.value) {
         if (uiStateFlow.value.success) {
-            navController?.navigate(homeKey)
+            navController?.navigate(homeKey){
+                popUpTo(navController.graph.startDestinationId) {
+                    inclusive = true
+                }
+            }
         } else if (uiStateFlow.value.error?.isNotEmpty() == true) {
             Toast.makeText(
                 context,
@@ -236,26 +238,14 @@ fun LoginScreen(navController: NavController?, viewModel: AuthViewModel = hiltVi
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.clickable {
                                 navController?.navigate(registrationKey) {
-                                    //TODO Murad remember to add stopping to go back button
-//                                popUpTo(loginKey){
-//                                    inclusive = true
-//                                }
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        inclusive = true
+                                    }
                                 }
                             })
                     }
                 }
             }
         )
-    }
-}
-
-@Preview
-@Composable
-fun RegistrationPreview() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = PrimaryDark
-    ) {
-//        RegistrationScreen(null)
     }
 }

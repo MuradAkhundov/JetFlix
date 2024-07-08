@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.util
+package com.muradakhundov.jetflix.common.util
 
 class Constants {
     companion object{

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,7 +29,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -61,11 +61,11 @@ import androidx.navigation.NavController
 import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthAction
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthViewModel
-import com.muradakhundov.jetflix.util.Constants.Companion.homeKey
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccent
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryDark
-import com.muradakhundov.jetflix.movie.ui.theme.PrimarySoft
-import com.muradakhundov.jetflix.util.Constants.Companion.loginKey
+import com.muradakhundov.jetflix.common.util.Constants.Companion.homeKey
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryDark
+import com.muradakhundov.jetflix.main.ui.theme.PrimarySoft
+import com.muradakhundov.jetflix.common.util.Constants.Companion.loginKey
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +82,11 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
 
     LaunchedEffect(uiStateFlow.value) {
         if (uiStateFlow.value.success) {
-            navController?.navigate(homeKey)
+            navController?.navigate(homeKey){
+                popUpTo(navController.graph.startDestinationId) {
+                    inclusive = true
+                }
+            }
         } else if (uiStateFlow.value.error?.isNotEmpty() == true) {
             Toast.makeText(
                 context,
@@ -139,8 +143,9 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 80.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(top = 80.dp)
+                        .imePadding(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -293,7 +298,11 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                             color = PrimaryAccent,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.clickable {
-                                navController?.navigate(loginKey)
+                                navController?.navigate(loginKey){
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        inclusive = true
+                                    }
+                                }
                             })
                     }
                 }

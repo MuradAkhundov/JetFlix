@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.onboarding.presentation.ui
+package com.muradakhundov.jetflix.entry.presentation.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -26,21 +26,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthViewModel
-import com.muradakhundov.jetflix.movie.ui.screen.helpers.onboarding.CustomPagerIndicator
-import com.muradakhundov.jetflix.movie.ui.screen.helpers.onboarding.PageContent
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccent
-import com.muradakhundov.jetflix.onboarding.presentation.viewmodel.OnBoardingViewModel
-import com.muradakhundov.jetflix.util.Constants.Companion.splashKey
+import com.muradakhundov.jetflix.main.ui.screen.helpers.onboarding.CustomPagerIndicator
+import com.muradakhundov.jetflix.main.ui.screen.helpers.onboarding.PageContent
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
+import com.muradakhundov.jetflix.entry.presentation.viewmodel.SharedEntryViewModel
+import com.muradakhundov.jetflix.common.util.Constants.Companion.welcomeKey
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(navController: NavController,viewModel: OnBoardingViewModel = hiltViewModel()) {
+fun OnBoardingScreen(navController: NavController,viewModel: SharedEntryViewModel = hiltViewModel()) {
     val pagerState = rememberPagerState(pageCount = { 3 })
     var reachedLastPage = false
     var nextPage by remember { mutableStateOf<Int?>(null) }
@@ -69,13 +67,15 @@ fun OnBoardingScreen(navController: NavController,viewModel: OnBoardingViewModel
     }
 
     LaunchedEffect(nextPage) {
-        if (viewModel.getOnboardingSeen()){
-            navController.navigate(splashKey)
-        }
         nextPage?.let {
             pagerState.animateScrollToPage(it)
             if (it >= pagerState.pageCount) {
                 reachedLastPage = true
+                navController.navigate(welcomeKey){
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
+                    }
+                }
                 viewModel.setOnboardingSeen()
             }
             nextPage = null

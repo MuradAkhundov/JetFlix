@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.movie.ui.screen
+package com.muradakhundov.jetflix.main.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

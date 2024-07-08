@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.authentication.data.repository.remote.UserRepository
 import com.muradakhundov.jetflix.authentication.ui.state.AuthState
-import com.muradakhundov.jetflix.util.Resource
+import com.muradakhundov.jetflix.common.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

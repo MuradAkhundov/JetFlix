@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.movie.ui.theme
+package com.muradakhundov.jetflix.main.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

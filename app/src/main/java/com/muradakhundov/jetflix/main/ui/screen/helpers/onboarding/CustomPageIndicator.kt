@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.movie.ui.screen.helpers.onboarding
+package com.muradakhundov.jetflix.main.ui.screen.helpers.onboarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -12,10 +12,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccent
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccentTransparent
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccentTransparent
 import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)

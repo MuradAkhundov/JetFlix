@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.muradakhundov.jetflix.movie.ui.navigation.Navigation
-import com.muradakhundov.jetflix.movie.ui.theme.JetFlixTheme
-import com.muradakhundov.jetflix.movie.ui.theme.PrimaryDark
+import com.muradakhundov.jetflix.main.ui.navigation.Navigation
+import com.muradakhundov.jetflix.main.ui.theme.JetFlixTheme
+import com.muradakhundov.jetflix.main.ui.theme.PrimaryDark
 import dagger.hilt.android.AndroidEntryPoint
 
 

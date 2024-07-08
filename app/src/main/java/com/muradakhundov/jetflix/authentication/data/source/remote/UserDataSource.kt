@@ -7,7 +7,7 @@ import com.muradakhundov.jetflix.authentication.common.Constants
 import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.common.data.source.PreferencesDataSource
 import com.muradakhundov.jetflix.authentication.domain.model.User
-import com.muradakhundov.jetflix.util.Resource
+import com.muradakhundov.jetflix.common.util.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +15,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
-
 
 class UserDataSource @Inject constructor(
     private val firebaseAuth: FirebaseAuth,

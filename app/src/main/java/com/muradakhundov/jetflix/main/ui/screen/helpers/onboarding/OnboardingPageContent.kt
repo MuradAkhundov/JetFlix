@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.movie.ui.screen.helpers.onboarding
+package com.muradakhundov.jetflix.main.ui.screen.helpers.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

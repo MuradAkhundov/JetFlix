@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.movie.ui.theme
+package com.muradakhundov.jetflix.main.ui.theme
 
 import android.app.Activity
 import android.os.Build
