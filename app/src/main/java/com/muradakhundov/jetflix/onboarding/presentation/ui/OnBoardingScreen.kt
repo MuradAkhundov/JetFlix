@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.movie.ui.screen
+package com.muradakhundov.jetflix.onboarding.presentation.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -27,22 +27,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.muradakhundov.jetflix.util.Constants.Companion.splashKey
+import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthViewModel
 import com.muradakhundov.jetflix.movie.ui.screen.helpers.onboarding.CustomPagerIndicator
 import com.muradakhundov.jetflix.movie.ui.screen.helpers.onboarding.PageContent
 import com.muradakhundov.jetflix.movie.ui.theme.PrimaryAccent
+import com.muradakhundov.jetflix.onboarding.presentation.viewmodel.OnBoardingViewModel
+import com.muradakhundov.jetflix.util.Constants.Companion.splashKey
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(navController: NavController) {
-    val context = LocalContext.current
+fun OnBoardingScreen(navController: NavController,viewModel: OnBoardingViewModel = hiltViewModel()) {
     val pagerState = rememberPagerState(pageCount = { 3 })
     var reachedLastPage = false
     var nextPage by remember { mutableStateOf<Int?>(null) }
+
     Column(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(state = pagerState) { page ->
             PageContent(page = page)
@@ -67,11 +69,14 @@ fun OnBoardingScreen(navController: NavController) {
     }
 
     LaunchedEffect(nextPage) {
+        if (viewModel.getOnboardingSeen()){
+            navController.navigate(splashKey)
+        }
         nextPage?.let {
             pagerState.animateScrollToPage(it)
-            if (it >= pagerState.pageCount - 1) {
+            if (it >= pagerState.pageCount) {
                 reachedLastPage = true
-                navController.navigate(splashKey)
+                viewModel.setOnboardingSeen()
             }
             nextPage = null
         }
@@ -95,10 +100,4 @@ fun SquareFloatingActionButton(
     ) {
         Icon(Icons.Filled.KeyboardArrowRight, contentDescription = null)
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun OnBoardingScreenPreview() {
 }

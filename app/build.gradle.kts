@@ -76,8 +76,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation (libs.androidx.datastore.preferences.core)
-
-
+    implementation(libs.androidx.datastore.preferences.core.v111)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     //Hilt
     implementation (libs.hilt.android)
     kapt(libs.hilt.android.compiler)

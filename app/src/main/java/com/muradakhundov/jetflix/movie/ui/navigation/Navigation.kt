@@ -12,8 +12,8 @@ import com.muradakhundov.jetflix.util.Constants.Companion.splashKey
 import com.muradakhundov.jetflix.util.Constants.Companion.welcomeKey
 import com.muradakhundov.jetflix.movie.ui.screen.HomeScreen
 import com.muradakhundov.jetflix.authentication.presentation.auth.RegistrationScreen
-import com.muradakhundov.jetflix.movie.ui.screen.OnBoardingScreen
-import com.muradakhundov.jetflix.movie.ui.screen.SplashScreen
+import com.muradakhundov.jetflix.onboarding.presentation.ui.OnBoardingScreen
+import com.muradakhundov.jetflix.onboarding.presentation.ui.SplashScreen
 import com.muradakhundov.jetflix.movie.ui.screen.WelcomeScreen
 import com.muradakhundov.jetflix.authentication.presentation.auth.LoginScreen
 

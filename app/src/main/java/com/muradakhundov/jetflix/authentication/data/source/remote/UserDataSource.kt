@@ -1,25 +1,25 @@
 package com.muradakhundov.jetflix.authentication.data.source.remote
 
-import android.util.Log
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.muradakhundov.jetflix.authentication.common.Constants
 import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
+import com.muradakhundov.jetflix.common.data.source.PreferencesDataSource
 import com.muradakhundov.jetflix.authentication.domain.model.User
-import com.muradakhundov.jetflix.authentication.ui.state.AuthState
 import com.muradakhundov.jetflix.util.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
-import java.util.concurrent.Flow
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
 
 class UserDataSource @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
+    private val actionDataSource : PreferencesDataSource,
     database: FirebaseDatabase
 ) {
     private val usersRef: DatabaseReference = database.getReference("users")
@@ -33,6 +33,7 @@ class UserDataSource @Inject constructor(
             if (userId != null) {
                 val user = User(userId, query.username, "", query.email)
                 usersRef.child(userId).setValue(user).await()
+                actionDataSource.saveBooleanAction(AuthQuery.LocalStorageBooleanQuery(key = Constants.IS_USER_LOGGED_IN,true))
                 Resource.Success(Unit)
             } else {
                 Resource.Error("User ID is null")
@@ -41,13 +42,24 @@ class UserDataSource @Inject constructor(
             Resource.Error("Error registering user: ${e.message}")
         }
     }
-
     suspend fun login(query: AuthQuery.LoginQuery): Resource<Unit> {
         return suspendCancellableCoroutine { continuation ->
             firebaseAuth.signInWithEmailAndPassword(query.email, query.password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        continuation.resume(Resource.Success(Unit))
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                actionDataSource.saveBooleanAction(
+                                    AuthQuery.LocalStorageBooleanQuery(
+                                        key = Constants.IS_USER_LOGGED_IN,
+                                        value = true
+                                    )
+                                )
+                                continuation.resume(Resource.Success(Unit))
+                            } catch (e: Exception) {
+                                continuation.resume(Resource.Error(e.message ?: "Unknown error"))
+                            }
+                        }
                     } else {
                         val exception = task.exception ?: Exception("Unknown error")
                         continuation.resume(Resource.Error(exception.message ?: "Unknown error"))

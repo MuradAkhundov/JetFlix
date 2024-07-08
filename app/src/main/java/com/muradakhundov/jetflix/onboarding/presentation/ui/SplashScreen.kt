@@ -1,10 +1,8 @@
-package com.muradakhundov.jetflix.movie.ui.screen
+package com.muradakhundov.jetflix.onboarding.presentation.ui
 
-import android.window.SplashScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
