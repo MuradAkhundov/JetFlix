@@ -3,6 +3,7 @@ package com.muradakhundov.jetflix.authentication.ui.viewmodel
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.authentication.data.repository.remote.UserRepository
 import com.muradakhundov.jetflix.authentication.ui.state.AuthState
 import com.muradakhundov.jetflix.util.Resource
@@ -24,6 +25,15 @@ class AuthViewModel @Inject constructor(private val repository: UserRepository) 
             _uiState.emit(AuthState(isLoading = true))
             when (action) {
                 is AuthAction.LoginAction -> {
+                    val answer = repository.login(AuthQuery.LoginQuery(action.email,action.password))
+                    when (answer) {
+                        is Resource.Success -> {
+                            _uiState.emit(AuthState(isLoading = false, success = true))
+                        }
+                        is Resource.Error -> {
+                            _uiState.emit(AuthState(isLoading = false, error = answer.message))
+                        }
+                    }
                 }
 
                 is AuthAction.RegisterAction -> {
