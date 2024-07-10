@@ -33,17 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.muradakhundov.jetflix.R
-import com.muradakhundov.jetflix.main.ui.bottomnav.BottomNavItem
 import com.muradakhundov.jetflix.main.ui.theme.JetFlixTheme
 import com.muradakhundov.jetflix.main.ui.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(navController: NavController,viewModel : HomeViewModel = hiltViewModel()) {
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
