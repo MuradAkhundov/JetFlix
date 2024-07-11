@@ -78,6 +78,7 @@ dependencies {
     implementation (libs.androidx.datastore.preferences.core)
     implementation(libs.androidx.datastore.preferences.core.v111)
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation (libs.converter.gson)
     //Hilt
     implementation (libs.hilt.android)
     kapt(libs.hilt.android.compiler)

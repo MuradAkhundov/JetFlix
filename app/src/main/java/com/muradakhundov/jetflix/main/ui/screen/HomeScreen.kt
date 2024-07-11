@@ -1,6 +1,9 @@
 package com.muradakhundov.jetflix.main.ui.screen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.*
 
 import androidx.compose.foundation.layout.Column
@@ -8,9 +11,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -56,6 +62,7 @@ fun HomeScreen(navController: NavController,viewModel : HomeViewModel = hiltView
 }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun UserProfileRow(modifier: Modifier = Modifier) {
     Row(
@@ -85,6 +92,40 @@ fun UserProfileRow(modifier: Modifier = Modifier) {
             )
         }
     }
+
+
+    val carouselItems = listOf(
+        "Image 1",
+        "Image 2",
+        "Image 3"
+    )
+
+    var currentPage = 0
+//
+//    @Composable
+//    fun CarouselIndicator(pageCount: Int, currentPage: Int) {
+//        Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+//            repeat(pageCount) { index ->
+//                val isSelected = index == currentPage
+//                val indicatorColor = if (isSelected) Color.Red else Color.Gray
+//                val indicatorSize = if (isSelected) 16.dp else 8.dp
+//                Box(
+//                    modifier = Modifier
+//                        .size(indicatorSize)
+//                        .background(indicatorColor)
+//                )
+//                Spacer(modifier = Modifier.width(8.dp))
+//            }
+//        }
+//    }
+//
+//    Row(modifier = Modifier.fillMaxWidth()) {
+//        HorizontalPager(state = ) { page ->
+//            // Your carousel item content here
+//        }
+//        Spacer(modifier = Modifier.width(8.dp))
+//        CarouselIndicator(pageCount = carouselItems.size, currentPage = currentPage)
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

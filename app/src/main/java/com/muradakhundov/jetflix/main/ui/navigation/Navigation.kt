@@ -14,11 +14,11 @@ import com.muradakhundov.jetflix.common.util.Constants.Companion.registrationKey
 import com.muradakhundov.jetflix.common.util.Constants.Companion.splashKey
 import com.muradakhundov.jetflix.common.util.Constants.Companion.welcomeKey
 import com.muradakhundov.jetflix.main.ui.screen.HomeScreen
-import com.muradakhundov.jetflix.authentication.presentation.auth.RegistrationScreen
+import com.muradakhundov.jetflix.authentication.ui.auth.RegistrationScreen
 import com.muradakhundov.jetflix.entry.presentation.ui.OnBoardingScreen
 import com.muradakhundov.jetflix.entry.presentation.ui.SplashScreen
 import com.muradakhundov.jetflix.main.ui.screen.WelcomeScreen
-import com.muradakhundov.jetflix.authentication.presentation.auth.LoginScreen
+import com.muradakhundov.jetflix.authentication.ui.auth.LoginScreen
 import com.muradakhundov.jetflix.main.ui.bottomnav.BottomNavItem
 import com.muradakhundov.jetflix.main.ui.bottomnav.NavigationBar
 import com.muradakhundov.jetflix.main.ui.screen.ProfileScreen
@@ -47,7 +47,6 @@ fun Navigation() {
         }
     }
 }
-
 
 @Composable
 fun BottomNavigation(navController: NavHostController) {

@@ -1,4 +1,4 @@
-package com.muradakhundov.jetflix.authentication.presentation.auth
+package com.muradakhundov.jetflix.authentication.ui.auth
 
 import android.annotation.SuppressLint
 import android.widget.Toast
