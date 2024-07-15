@@ -1,8 +1,9 @@
 package com.muradakhundov.jetflix.common.util
 
 class Constants {
-    companion object{
-       const val apiKey = "5ed5ea9e265394c8494231a57152dbd1"
+    companion object {
+        const val apiKey = "5ed5ea9e265394c8494231a57152dbd1"
+        const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
         const val BASE_URL = "https://api.themoviedb.org/3/"
         const val onBoardingKey = "onBoarding"
         const val registrationKey = "registration"

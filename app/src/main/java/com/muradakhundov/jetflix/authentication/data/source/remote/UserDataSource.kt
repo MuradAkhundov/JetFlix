@@ -38,7 +38,7 @@ class UserDataSource @Inject constructor(
                 Resource.Error("User ID is null")
             }
         } catch (e: Exception) {
-            Resource.Error("Error registering user: ${e.message}")
+            Resource.Error("${e.message}")
         }
     }
     suspend fun login(query: AuthQuery.LoginQuery): Resource<Unit> {

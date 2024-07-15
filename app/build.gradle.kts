@@ -86,4 +86,10 @@ dependencies {
     implementation (libs.androidx.hilt.navigation.compose)
     implementation (libs.androidx.hilt.work)
     implementation (libs.androidx.work.runtime.ktx)
+
+    implementation (libs.coil.compose)
+
+    implementation (libs.accompanist.pager)
+    implementation (libs.accompanist.pager.indicators)
+
 }

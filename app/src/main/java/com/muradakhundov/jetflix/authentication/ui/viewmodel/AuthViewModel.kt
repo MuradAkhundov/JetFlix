@@ -43,7 +43,7 @@ class AuthViewModel @Inject constructor(private val repository: UserRepository) 
                             _uiState.emit(AuthState(isLoading = false, success = true))
                         }
                         is Resource.Error -> {
-                            _uiState.emit(AuthState(isLoading = false, error = "Something Went Wrong"))
+                            _uiState.emit(AuthState(isLoading = false, error = answer.message))
                         }
                     }
                 }
