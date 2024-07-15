@@ -61,11 +61,11 @@ import androidx.navigation.NavController
 import com.muradakhundov.jetflix.authentication.data.query.AuthQuery
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthAction
 import com.muradakhundov.jetflix.authentication.ui.viewmodel.AuthViewModel
-import com.muradakhundov.jetflix.common.util.Constants.Companion.homeKey
+import com.muradakhundov.jetflix.common.util.Constants.Companion.KEY_HOME_NAVIGATION
 import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
 import com.muradakhundov.jetflix.main.ui.theme.PrimaryDark
 import com.muradakhundov.jetflix.main.ui.theme.PrimarySoft
-import com.muradakhundov.jetflix.common.util.Constants.Companion.loginKey
+import com.muradakhundov.jetflix.common.util.Constants.Companion.KEY_LOG_IN_NAVIGATION
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -82,7 +82,7 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
 
     LaunchedEffect(uiStateFlow.value) {
         if (uiStateFlow.value.success) {
-            navController?.navigate(homeKey){
+            navController?.navigate(KEY_HOME_NAVIGATION){
                 popUpTo(navController.graph.startDestinationId) {
                     inclusive = true
                 }
@@ -298,7 +298,7 @@ fun RegistrationScreen(navController: NavController?, viewModel: AuthViewModel =
                             color = PrimaryAccent,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.clickable {
-                                navController?.navigate(loginKey){
+                                navController?.navigate(KEY_LOG_IN_NAVIGATION){
                                     popUpTo(navController.graph.startDestinationId) {
                                         inclusive = true
                                     }

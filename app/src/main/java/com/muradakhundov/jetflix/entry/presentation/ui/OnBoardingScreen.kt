@@ -34,7 +34,7 @@ import com.muradakhundov.jetflix.main.ui.screen.helpers.onboarding.CustomPagerIn
 import com.muradakhundov.jetflix.main.ui.screen.helpers.onboarding.PageContent
 import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
 import com.muradakhundov.jetflix.entry.presentation.viewmodel.SharedEntryViewModel
-import com.muradakhundov.jetflix.common.util.Constants.Companion.welcomeKey
+import com.muradakhundov.jetflix.common.util.Constants.Companion.KEY_WELCOME_NAVIGATION
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -71,7 +71,7 @@ fun OnBoardingScreen(navController: NavController,viewModel: SharedEntryViewMode
             pagerState.animateScrollToPage(it)
             if (it >= pagerState.pageCount) {
                 reachedLastPage = true
-                navController.navigate(welcomeKey){
+                navController.navigate(KEY_WELCOME_NAVIGATION){
                     popUpTo(navController.graph.startDestinationId) {
                         inclusive = true
                     }

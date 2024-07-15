@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.muradakhundov.jetflix.R
-import com.muradakhundov.jetflix.common.util.Constants.Companion.loginKey
-import com.muradakhundov.jetflix.common.util.Constants.Companion.registrationKey
+import com.muradakhundov.jetflix.common.util.Constants.Companion.KEY_LOG_IN_NAVIGATION
+import com.muradakhundov.jetflix.common.util.Constants.Companion.KEY_REGISTER_NAVIGATION
 import com.muradakhundov.jetflix.main.ui.theme.PrimaryAccent
 import com.muradakhundov.jetflix.main.ui.theme.PrimaryDark
 
@@ -72,7 +72,7 @@ fun WelcomeScreen(navController: NavController?) {
                     Spacer(modifier = Modifier.size(0.dp, 30.dp))
                     Button(
                         onClick = {
-                            navController?.navigate(registrationKey)
+                            navController?.navigate(KEY_REGISTER_NAVIGATION)
                         },
                         Modifier
                             .fillMaxWidth()
@@ -87,7 +87,7 @@ fun WelcomeScreen(navController: NavController?) {
                         Text(text = "Already have an account?", color = Color.White)
                         ClickableText(text = "Login", color = PrimaryAccent, onClick = {
                             navController?.navigate(
-                                loginKey
+                                KEY_LOG_IN_NAVIGATION
                             )
                         })
                     }

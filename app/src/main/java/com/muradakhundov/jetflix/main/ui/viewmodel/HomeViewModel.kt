@@ -1,6 +1,5 @@
 package com.muradakhundov.jetflix.main.ui.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,7 +39,7 @@ class HomeViewModel @Inject constructor(
     private fun loadPopularMovies() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val result = popularMoviesUseCase(MovieQuery.GetMovieQuery(Constants.apiKey, 1))
+            val result = popularMoviesUseCase(MovieQuery.GetMovieQuery(Constants.API_KEY, 1))
             if (result.isSuccessful) {
                 _uiState.update { it.copy(popularMovies = result.body(), isLoading = false) }
             } else {
@@ -52,7 +51,7 @@ class HomeViewModel @Inject constructor(
     private fun loadTopRatedMovies() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val result = topRatedMoviesUseCase(MovieQuery.GetMovieQuery(Constants.apiKey, 1))
+            val result = topRatedMoviesUseCase(MovieQuery.GetMovieQuery(Constants.API_KEY, 1))
             if (result.isSuccessful) {
                 _uiState.update { it.copy(topRatedMovies = result.body(), isLoading = false) }
             } else {
@@ -64,7 +63,7 @@ class HomeViewModel @Inject constructor(
     private fun loadUpcomingMovies() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val result = upComingMoviesUseCase(MovieQuery.GetMovieQuery(Constants.apiKey, 1))
+            val result = upComingMoviesUseCase(MovieQuery.GetMovieQuery(Constants.API_KEY, 1))
             if (result.isSuccessful) {
                 _uiState.update { it.copy(upcomingMovies = result.body(), isLoading = false) }
             } else {

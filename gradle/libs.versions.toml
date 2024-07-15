@@ -26,6 +26,7 @@ preferenceKtx = "1.2.1"
 workRuntimeKtx = "2.9.0"
 retrofit = "2.11.0"
 firebaseAuth = "23.0.0"
+uiUtilAndroid = "1.6.8"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
@@ -61,6 +62,7 @@ google-services = { group = "com.google.gms", name = "google-services", version.
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+androidx-ui-util-android = { group = "androidx.compose.ui", name = "ui-util-android", version.ref = "uiUtilAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

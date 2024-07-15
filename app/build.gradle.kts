@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.retrofit)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.ui.util.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

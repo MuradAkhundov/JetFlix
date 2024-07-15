@@ -8,21 +8,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.muradakhundov.jetflix.main.ui.screen.home.SearchBar
 import com.muradakhundov.jetflix.main.ui.viewmodel.HomeViewModel
 
 @Composable
-fun SearchScreen(navController: NavController, viewModel : HomeViewModel = hiltViewModel()) {
+fun DetailScreen(navController: NavController, viewModel : HomeViewModel = hiltViewModel()) {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        SearchBar(
-            searchText = viewModel.searchText,
-            onSearchTextChange = viewModel::onSearchTextChange,
-            isSearching = viewModel.isSearching,
-            onToggleSearch = viewModel::onToggleSearch
-        )
-        Text(text = "Search Screen")
+        Text(text = "Profile Screen")
     }
+
 }

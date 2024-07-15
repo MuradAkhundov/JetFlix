@@ -1,12 +1,9 @@
-package com.muradakhundov.jetflix.main.ui.screen
+package com.muradakhundov.jetflix.main.ui.screen.home
 
-import android.graphics.Movie
 import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.*
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,9 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -38,128 +36,135 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
 import com.muradakhundov.jetflix.R
-import com.muradakhundov.jetflix.common.util.Constants
-import com.muradakhundov.jetflix.main.data.model.movies.MovieResponse
-import com.muradakhundov.jetflix.main.data.model.movies.Result
+import com.muradakhundov.jetflix.common.util.Constants.Companion.KEY_DETAIL_NAVIGATION
+import com.muradakhundov.jetflix.main.ui.screen.home.carouselview.MovieCarouselView
+import com.muradakhundov.jetflix.main.ui.screen.home.categories.CategoriesRow
+import com.muradakhundov.jetflix.main.ui.screen.home.movieitem.MovieCardItem
 import com.muradakhundov.jetflix.main.ui.theme.JetFlixTheme
 import com.muradakhundov.jetflix.main.ui.viewmodel.HomeViewModel
-import kotlin.math.absoluteValue
 
+
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
-
     val state by viewModel.uiState.collectAsState()
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 10.dp, vertical = 8.dp)
     ) {
-        Spacer(modifier = Modifier.size(10.dp, 20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         UserProfileRow()
-        Spacer(modifier = Modifier.size(10.dp, 10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         SearchBar(
             searchText = viewModel.searchText,
             onSearchTextChange = viewModel::onSearchTextChange,
             isSearching = viewModel.isSearching,
             onToggleSearch = viewModel::onToggleSearch
         )
-        if (state.isLoading) {
-            CircularProgressIndicator()
-            Log.e("Flixjet", "Loading...")
-        }
-        if (state.popularMovies != null) {
-            state.popularMovies?.let { movieResponse ->
-                CarouselView(movies = movieResponse.results)
-            } ?: run {
-                Log.e("Flixjet", "null")
-            }
-        } else {
-            Log.e("Flixjet", "null")
-        }
-    }
-}
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-fun CarouselView(movies: List<Result>) {
-    val pagerState = rememberPagerState()
-
-    HorizontalPager(
-        count = movies.size,
-        state = pagerState,
-        modifier = Modifier
-            // Remove fillMaxWidth() if not needed
-            .padding(horizontal = 12.dp) // Adjust horizontal padding as needed
-    ) { page ->
-        val pageOffset = (pagerState.currentPage - page + pagerState.currentPageOffset).absoluteValue
-
+        Spacer(modifier = Modifier.height(16.dp))
         Box(
             modifier = Modifier
-                .graphicsLayer {
-                    val scale = lerp(0.55f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
-                    scaleX = scale
-                    scaleY = scale
-                    alpha = lerp(0.35f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
-                }
-                .padding(16.dp)
+                .fillMaxSize()
+                .weight(1f)
         ) {
-            MovieCard(movies[page])
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                item {
+                    state.popularMovies?.let { movieResponse ->
+                        MovieCarouselView(movies = movieResponse.results, navController = navController)
+                    } ?: run {
+                        Log.e("Flixjet", "null")
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Text(
+                        text = "Categories",
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+                    CategoriesRow(
+                        categories = listOf(
+                            "All",
+                            "Comedy",
+                            "Animation",
+                            "Documentary",
+                            "Drama",
+                            "Horror",
+                            "Sci-Fi"
+                        )
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Top Rated Movies",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
+                        items(state.topRatedMovies?.results ?: emptyList()) { movie ->
+                            MovieCardItem(
+                                movie = movie,
+                                navController = navController
+                            )
+                        }
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Upcoming Movies",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
+                        items(state.upcomingMovies?.results ?: emptyList()) { movie ->
+                            MovieCardItem(
+                                movie = movie,
+                                navController = navController
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(100.dp))
+                }
+            }
         }
     }
 }
-
-
-private fun lerp(start: Float, stop: Float, fraction: Float): Float {
-    return (start + (stop - start) * fraction)
-}
-
-@Composable
-fun MovieCard(movie: Result) {
-    Box(
-        modifier = Modifier
-            .width(300.dp)
-            .padding(horizontal = 8.dp)
-            .clip(RoundedCornerShape(30.dp))
-    ) {
-        Image(
-            painter = rememberAsyncImagePainter("${Constants.IMAGE_URL}${movie.backdrop_path}"),
-            contentDescription = movie.title,
-            modifier = Modifier
-                .height(200.dp)
-        )
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Bottom) {
-            Text(
-                text = movie.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-            Text(
-                text = "On ${movie.release_date}",
-                fontWeight = FontWeight.Light,
-                fontSize = 14.sp,
-                color = Color.White,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun UserProfileRow(modifier: Modifier = Modifier) {
     Row(
@@ -176,7 +181,7 @@ fun UserProfileRow(modifier: Modifier = Modifier) {
             alignment = Alignment.Center
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Column() {
+        Column {
             Text(
                 text = "Hello, Smith",
                 style = MaterialTheme.typography.bodyMedium,
@@ -189,34 +194,6 @@ fun UserProfileRow(modifier: Modifier = Modifier) {
             )
         }
     }
-
-
-    var currentPage = 0
-//
-//    @Composable
-//    fun CarouselIndicator(pageCount: Int, currentPage: Int) {
-//        Row(modifier = Modifier.padding(horizontal = 16.dp)) {
-//            repeat(pageCount) { index ->
-//                val isSelected = index == currentPage
-//                val indicatorColor = if (isSelected) Color.Red else Color.Gray
-//                val indicatorSize = if (isSelected) 16.dp else 8.dp
-//                Box(
-//                    modifier = Modifier
-//                        .size(indicatorSize)
-//                        .background(indicatorColor)
-//                )
-//                Spacer(modifier = Modifier.width(8.dp))
-//            }
-//        }
-//    }
-//
-//    Row(modifier = Modifier.fillMaxWidth()) {
-//        HorizontalPager(state = ) { page ->
-//            // Your carousel item content here
-//        }
-//        Spacer(modifier = Modifier.width(8.dp))
-//        CarouselIndicator(pageCount = carouselItems.size, currentPage = currentPage)
-//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -233,7 +210,7 @@ fun SearchBar(
         onValueChange = onSearchTextChange,
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 5.dp),
         placeholder = { Text("Search") },
         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
         trailingIcon = {
